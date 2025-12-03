@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "acbr-sitef-android"
 include(":app")
 include(":domain")
+include(":fiserv:msitef")
