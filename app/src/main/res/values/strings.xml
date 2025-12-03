@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Fiserv</string>
+    <string name="demo">Demo</string>
+    <string name="pay">Pagar</string>
+    <string name="button_icon">Ícone do botão</string>
+    <string name="cd_app_logo">Logo do APP</string>
+    <string name="alert">Alerta</string>
+    <string name="ok">OK</string>
+    <string name="amount_to_pay">Valor a Pagar</string>
+    <string name="select_payment_method">Escolha o método de pagamento:</string>
+    <string name="select_installment_option">Selecione o número de parcelas:</string>
+    <string name="cancel">Cancelar</string>
+    <string name="generic_error">Ocorreu um erro, tente novamente.</string>
+    <string name="installment_option_x">%1$dx</string>
+    <string name="installment_monthly_value">%1$s/mês</string>
+    <string name="total_a_pagar_com_taxa">Total a pagar: %1$s (com taxa)</string>
+    <string name="total_sem_juros">Total: %1$s (sem juros)</string>
+</resources>
