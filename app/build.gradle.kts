@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+    implementation(project(":print:sunmi"))
     implementation(project(":fiserv:msitef"))
 
     implementation(libs.koin.android)

@@ -72,7 +72,7 @@ class MSitefPaymentActivity : AppCompatActivity() {
                     if (response.codResp == "0") {
                         callback?.onSuccess(
                             MSitefPaymentHolder.payment?.id.toString(),
-                            "Pagamento concluído."
+                            response.viaEstabelecimento ?: "NULL"
                         )
                     } else {
                         callback?.onFailure(

@@ -12,6 +12,9 @@ import com.mjtech.domain.payment.model.PaymentType
 import com.mjtech.domain.payment.repository.PaymentCallback
 import com.mjtech.domain.payment.repository.PaymentProcessor
 import com.mjtech.domain.payment.repository.PaymentRepository
+import com.mjtech.domain.print.model.TextPrint
+import com.mjtech.domain.print.model.TextStyle
+import com.mjtech.domain.print.repository.PrintRepository
 import com.mjtech.fintesthub.android.ui.common.mappers.toUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +24,8 @@ import kotlinx.coroutines.launch
 
 class CheckoutViewModel(
     private val paymentRepository: PaymentRepository,
-    private val paymentProcessor: PaymentProcessor
+    private val paymentProcessor: PaymentProcessor,
+    private val printRepository: PrintRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CheckoutUiState())
@@ -33,7 +37,8 @@ class CheckoutViewModel(
 
     private val paymentCallback = object : PaymentCallback {
         override fun onSuccess(transactionId: String, message: String?) {
-            Log.d(TAG, "Payment successful: $transactionId, message: $message")
+            Log.d(TAG, "Payment successful: $transactionId, receipt: $message")
+            printReceipt(message ?: "null")
         }
 
         override fun onFailure(errorCode: String, errorMessage: String) {
@@ -124,8 +129,16 @@ class CheckoutViewModel(
         }
     }
 
-    fun resetPaymentResult() {
-        _uiState.update { it.copy(errorMessage = null) }
+    private fun printReceipt(receipt: String) {
+        viewModelScope.launch {
+            printRepository.printSimpleText(TextPrint(receipt, TextStyle(""))).collect { result ->
+                _uiState.update {
+                    it.copy(
+                        printResult = result
+                    )
+                }
+            }
+        }
     }
 
     private fun loadPaymentMethods() {

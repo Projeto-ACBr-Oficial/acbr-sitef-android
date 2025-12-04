@@ -2,12 +2,12 @@ package com.mjtech.print.data.repository
 
 import android.graphics.Bitmap
 import androidx.core.graphics.scale
+import com.mjtech.domain.common.Result
+import com.mjtech.domain.print.model.ImageData
+import com.mjtech.domain.print.model.TextPrint
+import com.mjtech.domain.print.repository.PrintRepository
 import com.mjtech.print.data.common.toAndroidBitmap
 import com.mjtech.print.data.source.SunmiPrinterManager
-import com.mjtech.store.domain.common.Result
-import com.mjtech.store.domain.print.model.ImageData
-import com.mjtech.store.domain.print.model.TextPrint
-import com.mjtech.store.domain.print.repository.PrintRepository
 import com.sunmi.printerx.enums.Align
 import com.sunmi.printerx.enums.ErrorLevel
 import com.sunmi.printerx.style.BaseStyle
