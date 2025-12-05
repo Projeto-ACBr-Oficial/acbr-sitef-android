@@ -55,11 +55,15 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
                 putExtra("numParcelas", payment.installmentDetails?.installments.toString())
             }
 
+            if (payment.type != PaymentType.CREDIT) {
+                putExtra("restricoes", restricoes)
+            }
+
             // Confiugurações adicionais
             putExtra("timeoutColeta", MSiTefData.data.timeoutColeta)
             putExtra("comExterna", COM_EXTERNA)
 
-            putExtra("restricoes", restricoes)
+
 
             Log.d(TAG, "Intent extras: ${this.extras}")
         }
@@ -94,10 +98,6 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
         val restrictionCode = when (method) {
             PaymentType.DEBIT -> "16"
             PaymentType.VOUCHER -> "16"
-            PaymentType.CREDIT -> {
-                if (installment > 1) "27" else "26"
-            }
-
             PaymentType.PIX -> "7;8;3919"
             else -> "0"
         }

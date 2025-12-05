@@ -8,7 +8,7 @@ import com.mjtech.fiserv.msitef.common.MSiTefData
 data class SettingsUiState(
     val settingsModel: Settings? = null,
     val settingsResult: Result<Settings>? = null,
-    val settings: MSitefSettings = MSiTefData.data,
+    val printResult: Result<Unit>? = null,
     val saveSettingsResult: Result<Unit>? = null,
     val isLoading: Boolean = true,
     val showSuccessMessage: Boolean = false

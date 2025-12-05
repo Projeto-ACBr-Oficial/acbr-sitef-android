@@ -39,9 +39,9 @@ class CheckoutViewModel(
     private val paymentCallback = object : PaymentCallback {
         override fun onSuccess(transactionId: String, message: String?) {
             Log.d(TAG, "Payment successful: $transactionId, receipt: $message")
-            if (FinApplication.printReceipt) {
-                printReceipt(message ?: "null")
-            }
+
+            printReceipt(message ?: "null")
+
         }
 
         override fun onFailure(errorCode: String, errorMessage: String) {
