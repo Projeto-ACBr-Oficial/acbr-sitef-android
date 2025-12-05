@@ -14,11 +14,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -31,6 +33,7 @@ import com.mjtech.fintesthub.android.ui.common.components.FinButton
 import com.mjtech.fintesthub.android.ui.common.components.FinSwitch
 import com.mjtech.fintesthub.android.ui.common.components.FinTextField
 import com.mjtech.fiserv.msitef.common.MSiTefData
+import com.mjtech.fiserv.msitef.payment.MSitefPaymentResponse
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -43,8 +46,6 @@ fun SettingsPage(
 
     val mSitefSettings = MSiTefData.data
 
-    val context = LocalContext.current
-
     val adminMenuLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { result ->
@@ -53,11 +54,10 @@ fun SettingsPage(
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
 
-                    val comprovante = data?.getStringExtra("VIA_ESTABELECIMENTO")
+                    val model = MSitefPaymentResponse(data)
 
-                    if (comprovante != null) {
-                        viewModel.printReceipt(comprovante)
-                    }
+                    viewModel.printReceipt(model.viaCliente.toString())
+
                     Log.d("SettingsPage","Retorno do SiTef -. Comprovante coletado.")
 
                 }
