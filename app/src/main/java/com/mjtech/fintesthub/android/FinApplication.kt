@@ -9,6 +9,10 @@ import org.koin.core.context.startKoin
 
 class FinApplication : Application() {
 
+    companion object {
+        var printReceipt: Boolean = true
+    }
+
     override fun onCreate() {
         super.onCreate()
         startKoin {

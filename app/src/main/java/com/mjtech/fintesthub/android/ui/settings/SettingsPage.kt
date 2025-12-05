@@ -18,6 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mjtech.domain.settings.model.Settings
+import com.mjtech.fintesthub.android.FinApplication
 import com.mjtech.fintesthub.android.R
 import com.mjtech.fintesthub.android.ui.common.components.FinButton
 import com.mjtech.fintesthub.android.ui.common.components.FinSwitch
@@ -31,6 +32,8 @@ fun SettingsPage(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val mSitefSettings = uiState.settings
 
     Box(
         modifier = Modifier
@@ -55,8 +58,8 @@ fun SettingsPage(
                 ) {
                     item {
                         FinTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = mSitefSettings.empresaSitef,
+                            onValueChange = viewModel::updateEmpresaSitef,
                             label = "Empresa SiTef",
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
@@ -64,17 +67,17 @@ fun SettingsPage(
 
                     item {
                         FinTextField(
-                            value = "",
-                            onValueChange = {},
-                            label = "Endereço IP SiTef",
+                            value = mSitefSettings.enderecoSitef,
+                            onValueChange = viewModel::updateEnderecoSitef,
+                            label = "Endereço IP do SitDemo",
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }
 
                     item {
                         FinTextField(
-                            value = "",
-                            onValueChange = { },
+                            value = mSitefSettings.operador,
+                            onValueChange = viewModel::updateOperador,
                             label = "Operador",
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
@@ -82,8 +85,8 @@ fun SettingsPage(
 
                     item {
                         FinTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = mSitefSettings.cnpjCpf,
+                            onValueChange = viewModel::updateCnpjCpf,
                             label = "CNPJ ou CPF",
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
@@ -91,8 +94,8 @@ fun SettingsPage(
 
                     item {
                         FinTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = mSitefSettings.timeoutColeta,
+                            onValueChange = viewModel::updateTimeoutColeta,
                             label = "Timeout (segundos)",
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier.padding(bottom = 24.dp)
@@ -103,19 +106,11 @@ fun SettingsPage(
                         FinSwitch(
                             title = "Imprimir comprovantes",
                             subtitle = "Habilitar impressão automática de comprovantes",
-                            isChecked = true,
-                            onCheckedChange = {}
+                            isChecked = FinApplication.printReceipt,
+                            onCheckedChange = viewModel::toggleImprimirComprovantes
                         )
                     }
                 }
-
-                FinButton(
-                    onClick = { },
-                    text = stringResource(R.string.save_settings),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
             }
         }
     }
