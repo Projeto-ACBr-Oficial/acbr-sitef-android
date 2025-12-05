@@ -12,6 +12,7 @@ import com.mjtech.fiserv.msitef.common.CNPJ_CPF
 import com.mjtech.fiserv.msitef.common.COM_EXTERNA
 import com.mjtech.fiserv.msitef.common.EMPRESA_SITEF
 import com.mjtech.fiserv.msitef.common.ENDERECO_SITEF
+import com.mjtech.fiserv.msitef.common.MSiTefData
 import com.mjtech.fiserv.msitef.common.OPERADOR
 import com.mjtech.fiserv.msitef.common.TIMEOUT_COLETA
 import com.mjtech.fiserv.msitef.common.getCurrentDate
@@ -36,10 +37,10 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
         val fiservIntent = Intent("br.com.softwareexpress.sitef.msitef.ACTIVITY_CLISITEF").apply {
 
             // Parâmetros de entrada para o SiTef
-            putExtra("empresaSitef", EMPRESA_SITEF)
-            putExtra("enderecoSitef", ENDERECO_SITEF)
-            putExtra("operador", OPERADOR)
-            putExtra("CNPJ_CPF", CNPJ_CPF)
+            putExtra("empresaSitef", MSiTefData.data.empresaSitef)
+            putExtra("enderecoSitef", MSiTefData.data.enderecoSitef)
+            putExtra("operador", MSiTefData.data.operador)
+            putExtra("CNPJ_CPF", MSiTefData.data.cnpjCpf)
 
             // Dados da transação
             putExtra("data", getCurrentDate())
@@ -55,7 +56,7 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
             }
 
             // Confiugurações adicionais
-            putExtra("timeoutColeta", TIMEOUT_COLETA)
+            putExtra("timeoutColeta", MSiTefData.data.timeoutColeta)
             putExtra("comExterna", COM_EXTERNA)
 
             putExtra("restricoes", restricoes)
