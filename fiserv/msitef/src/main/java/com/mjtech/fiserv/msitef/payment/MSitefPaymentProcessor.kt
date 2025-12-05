@@ -4,8 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.mjtech.fiserv.msitef.common.ACESSIBILIDADE_VISUAL
+import com.mjtech.domain.payment.model.Payment
+import com.mjtech.domain.payment.model.PaymentType
+import com.mjtech.domain.payment.repository.PaymentCallback
+import com.mjtech.domain.payment.repository.PaymentProcessor
 import com.mjtech.fiserv.msitef.common.CNPJ_CPF
+import com.mjtech.fiserv.msitef.common.COM_EXTERNA
 import com.mjtech.fiserv.msitef.common.EMPRESA_SITEF
 import com.mjtech.fiserv.msitef.common.ENDERECO_SITEF
 import com.mjtech.fiserv.msitef.common.OPERADOR
@@ -13,10 +17,6 @@ import com.mjtech.fiserv.msitef.common.TIMEOUT_COLETA
 import com.mjtech.fiserv.msitef.common.getCurrentDate
 import com.mjtech.fiserv.msitef.common.getCurrentTime
 import com.mjtech.fiserv.msitef.common.toStringWithoutDots
-import com.mjtech.domain.payment.model.Payment
-import com.mjtech.domain.payment.model.PaymentType
-import com.mjtech.domain.payment.repository.PaymentCallback
-import com.mjtech.domain.payment.repository.PaymentProcessor
 
 internal class MSitefPaymentProcessor(private val context: Context) : PaymentProcessor {
 
@@ -55,8 +55,8 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
             }
 
             // Confiugurações adicionais
-            putExtra("acessibilidadeVisual", ACESSIBILIDADE_VISUAL)
             putExtra("timeoutColeta", TIMEOUT_COLETA)
+            putExtra("comExterna", COM_EXTERNA)
 
             putExtra("restricoes", restricoes)
 
@@ -96,6 +96,7 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
             PaymentType.CREDIT -> {
                 if (installment > 1) "27" else "26"
             }
+
             PaymentType.PIX -> "7;8;3919"
             else -> "0"
         }

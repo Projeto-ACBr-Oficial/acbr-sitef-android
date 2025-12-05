@@ -20,7 +20,7 @@ fun BottomNavigationBar(navController: NavController) {
 
     val items = listOf(
         AppScreen.PaymentNavBar,
-        AppScreen.ConfigurationNavBar
+        AppScreen.SettingsNavBar
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()

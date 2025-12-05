@@ -15,4 +15,5 @@
     <string name="installment_monthly_value">%1$s/mês</string>
     <string name="total_a_pagar_com_taxa">Total a pagar: %1$s (com taxa)</string>
     <string name="total_sem_juros">Total: %1$s (sem juros)</string>
+    <string name="save_settings">Salvar Configurações</string>
 </resources>
