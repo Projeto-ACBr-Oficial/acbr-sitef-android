@@ -13,6 +13,11 @@ serialization = "1.7.3"
 coroutines-core = "1.8.1"
 navigation-compose = "2.9.2"
 koin = "3.5.0"
+appcompat = "1.7.1"
+material = "1.13.0"
+activity = "1.10.1"
+constraintlayout = "2.2.1"
+data-store = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +40,11 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-androidx-navigation = { group = "io.insert-koin", name = "koin-androidx-navigation", version.ref = "koin" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+data-store = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "data-store" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -42,4 +52,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jvm" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 

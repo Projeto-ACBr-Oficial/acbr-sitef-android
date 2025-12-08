@@ -10,10 +10,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mjtech.fintesthub.android.ui.common.components.BottomNavigationBar
 import com.mjtech.fintesthub.android.ui.common.routes.CheckoutRoute
-import com.mjtech.fintesthub.android.ui.common.routes.ConfigurationRoute
+import com.mjtech.fintesthub.android.ui.common.routes.SettingsRoute
 import com.mjtech.fintesthub.android.ui.common.routes.HomeRoute
 import com.mjtech.fintesthub.android.ui.common.routes.PaymentRoute
-import com.mjtech.fintesthub.android.ui.configuration.ConfigurationPage
+import com.mjtech.fintesthub.android.ui.settings.SettingsPage
 import com.mjtech.fintesthub.android.ui.payment.PaymentPage
 
 @Composable
@@ -40,8 +40,8 @@ fun HomeScreen(rootNavController: NavController) {
                 })
             }
 
-            composable<ConfigurationRoute> {
-                ConfigurationPage()
+            composable<SettingsRoute> {
+                SettingsPage()
             }
         }
     }

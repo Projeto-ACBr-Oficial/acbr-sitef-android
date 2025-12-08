@@ -19,8 +19,8 @@ sealed class AppScreen(
         painter = R.drawable.ic_credit_card
     )
 
-    object ConfigurationNavBar : AppScreen(
-        route = ConfigurationRoute,
+    object SettingsNavBar : AppScreen(
+        route = SettingsRoute,
         label = "Configurações",
         icon = Icons.Filled.Settings
     )

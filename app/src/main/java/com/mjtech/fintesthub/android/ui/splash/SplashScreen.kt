@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,16 +20,24 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mjtech.fintesthub.android.R
 import com.mjtech.fintesthub.android.ui.theme.Gray300
 import com.mjtech.fintesthub.android.ui.theme.Typography
-import kotlinx.coroutines.delay
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SplashScreen(onNavigate: () -> Unit) {
-    LaunchedEffect(key1 = Unit) {
-        delay(2_500)
-        onNavigate()
+fun SplashScreen(
+    viewModel: SplashViewModel = koinViewModel(),
+    onNavigate: () -> Unit
+) {
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(uiState.isReadyToNavigate) {
+        if (uiState.isReadyToNavigate) {
+            onNavigate()
+        }
     }
 
     Scaffold { paddingValues ->

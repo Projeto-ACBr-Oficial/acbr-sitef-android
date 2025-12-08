@@ -12,7 +12,7 @@ data object HomeRoute
 data object PaymentRoute
 
 @Serializable
-data object ConfigurationRoute
+data object SettingsRoute
 
 @Serializable
 data class CheckoutRoute(val valueInCents: Long)
