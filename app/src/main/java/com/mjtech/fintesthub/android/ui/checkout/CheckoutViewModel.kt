@@ -15,7 +15,6 @@ import com.mjtech.domain.payment.repository.PaymentRepository
 import com.mjtech.domain.print.model.TextPrint
 import com.mjtech.domain.print.model.TextStyle
 import com.mjtech.domain.print.repository.PrintRepository
-import com.mjtech.fintesthub.android.FinApplication
 import com.mjtech.fintesthub.android.ui.common.mappers.toUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

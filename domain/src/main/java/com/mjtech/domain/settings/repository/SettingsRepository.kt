@@ -1,12 +1,12 @@
 package com.mjtech.domain.settings.repository
 
 import com.mjtech.domain.common.Result
-import com.mjtech.domain.settings.model.Settings
+import com.mjtech.domain.settings.model.Setting
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
 
-    fun getSettings(): Flow<Result<Settings>>
+    fun getSetting(setting: Setting): Flow<Result<Setting>>
 
-    fun saveSettings(settings: Settings): Flow<Result<Unit>>
+    fun saveSetting(setting: Setting): Flow<Result<Unit>>
 }

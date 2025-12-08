@@ -3,7 +3,7 @@ package com.mjtech.fiserv.msitef.payment
 import com.mjtech.domain.payment.model.Payment
 import com.mjtech.domain.payment.repository.PaymentCallback
 
-object MSitefPaymentHolder {
+internal object MSitefPaymentHolder {
     var callback: PaymentCallback? = null
     var payment: Payment? = null
 

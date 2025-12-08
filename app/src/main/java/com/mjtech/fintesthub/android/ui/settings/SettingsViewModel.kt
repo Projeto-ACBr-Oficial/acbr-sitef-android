@@ -1,59 +1,83 @@
 package com.mjtech.fintesthub.android.ui.settings
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mjtech.domain.common.Result
 import com.mjtech.domain.print.model.TextPrint
 import com.mjtech.domain.print.model.TextStyle
 import com.mjtech.domain.print.repository.PrintRepository
-import com.mjtech.domain.settings.model.MSitefSettings
+import com.mjtech.domain.settings.model.Setting
 import com.mjtech.domain.settings.model.Settings
 import com.mjtech.domain.settings.repository.SettingsRepository
-import com.mjtech.fintesthub.android.FinApplication
-import com.mjtech.fiserv.msitef.common.MSiTefData
+import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys
+import com.mjtech.fiserv.msitef.common.MSitefSettingsKey
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+typealias EditableSettings = Map<String, Any>
 
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
     private val printRepository: PrintRepository
 ) : ViewModel() {
 
-    val settings: MSitefSettings = MSiTefData.data
-
     private val _uiState = MutableStateFlow(SettingsUiState())
 
     val uiState: StateFlow<SettingsUiState> = _uiState
 
     init {
-        loadSettings()
+        loadEditableSettings()
     }
 
     fun updateEmpresaSitef(newValue: String) {
-        settings.empresaSitef = newValue
+        val key = MSitefSettingsKey.EMPRESA_SITEF
 
+        updateSettingValue(key, newValue)
+
+        saveSetting(key, newValue)
     }
 
     fun updateEnderecoSitef(newValue: String) {
-        settings.enderecoSitef = newValue
+        val key = MSitefSettingsKey.ENDERECO_SITEF
 
+        updateSettingValue(key, newValue)
+
+        saveSetting(key, newValue)
     }
 
     fun updateOperador(newValue: String) {
-       settings.operador = newValue
+        val key = MSitefSettingsKey.OPERADOR
+
+        updateSettingValue(key, newValue)
+
+        saveSetting(key, newValue)
     }
 
     fun updateCnpjCpf(newValue: String) {
-        settings.cnpjCpf = newValue
+        val key = MSitefSettingsKey.CNPJ_CPF
+
+        updateSettingValue(key, newValue)
+
+        saveSetting(key, newValue)
     }
 
-    fun updateTimeoutColeta(newValue: String) {
-        settings.timeoutColeta = newValue
+    fun updateCnpjAutomacao(newValue: String) {
+        val key = MSitefSettingsKey.CNPJ_AUTOMACAO
+
+        updateSettingValue(key, newValue)
+
+        saveSetting(key, newValue)
     }
 
-    fun toggleImprimirComprovantes(isChecked: Boolean) {
-        FinApplication.printReceipt = isChecked
+    fun onPrintReceiptToggle(isChecked: Boolean) {
+        val key = MainSettingsKeys.PRINT_RECEIPT
+
+        updateSettingValue(key, isChecked)
+
+        saveSetting(key, isChecked)
     }
 
     fun printReceipt(receipt: String) {
@@ -68,29 +92,39 @@ class SettingsViewModel(
         }
     }
 
-    private fun loadSettings() {
+    private fun updateSettingValue(key: String, newValue: Any) {
+        _uiState.update { currentState ->
+            val newMap = currentState.editableSettings.toMutableMap()
+            newMap[key] = newValue
+
+            currentState.copy(editableSettings = newMap)
+        }
+    }
+
+    private fun saveSetting(key: String, newValue: Any) {
+        val settingToSave = Setting(key, newValue)
+
         viewModelScope.launch {
-            settingsRepository.getSettings()
-                .collect { result ->
-                _uiState.update {
-                    it.copy(
-                        settingsResult = result,
-                        isLoading = false
-                    )
+            settingsRepository.saveSetting(settingToSave).collect { result ->
+                if (result is Result.Success) {
+                    Settings.updateSetting(settingToSave)
+                } else if (result is Result.Error) {
+                    Log.e(TAG, result.error)
                 }
             }
         }
     }
 
-    fun saveSettings(settings: Settings) {
-        viewModelScope.launch {
-            settingsRepository.saveSettings(settings).collect { result ->
-                _uiState.update {
-                    it.copy(
-                        saveSettingsResult = result
-                    )
-                }
-            }
+    private fun loadEditableSettings() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                editableSettings = Settings.settingsMap,
+                isLoading = false
+            )
         }
+    }
+
+    companion object {
+        const val TAG = "SettingsViewModel"
     }
 }

@@ -11,31 +11,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mjtech.domain.settings.model.MSitefSettings
-import com.mjtech.domain.settings.model.Settings
-import com.mjtech.fintesthub.android.FinApplication
 import com.mjtech.fintesthub.android.R
+import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys
 import com.mjtech.fintesthub.android.ui.common.components.FinButton
 import com.mjtech.fintesthub.android.ui.common.components.FinSwitch
 import com.mjtech.fintesthub.android.ui.common.components.FinTextField
-import com.mjtech.fiserv.msitef.common.MSiTefData
-import com.mjtech.fiserv.msitef.payment.MSitefPaymentResponse
+import com.mjtech.fiserv.msitef.common.MSitefSettingsKey
+import com.mjtech.fiserv.msitef.common.getFullAddress
+import com.mjtech.fiserv.msitef.payment.MSitefResponse
 import org.koin.androidx.compose.koinViewModel
-
 
 @Composable
 fun SettingsPage(
@@ -43,8 +35,6 @@ fun SettingsPage(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val mSitefSettings = MSiTefData.data
 
     val adminMenuLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -54,17 +44,19 @@ fun SettingsPage(
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
 
-                    val model = MSitefPaymentResponse(data)
+                    val model = MSitefResponse(data)
 
                     viewModel.printReceipt(model.viaCliente.toString())
 
-                    Log.d("SettingsPage","Retorno do SiTef -. Comprovante coletado.")
+                    Log.d("SettingsPage", "Retorno do SiTef -. Comprovante coletado.")
 
                 }
+
                 Activity.RESULT_CANCELED -> {
 
-                    Log.d("SettingsPage","Retorno do SiTef - Operação cancelada.")
+                    Log.d("SettingsPage", "Retorno do SiTef - Operação cancelada.")
                 }
+
                 else -> {
                     Log.e("SettingsPage", "Retorno do SiTef - Erro: ${result.resultCode}")
                 }
@@ -86,6 +78,25 @@ fun SettingsPage(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                val empresaSitef =
+                    uiState.editableSettings[MSitefSettingsKey.EMPRESA_SITEF] as? String
+                        ?: ""
+                val enderecoSitef =
+                    uiState.editableSettings[MSitefSettingsKey.ENDERECO_SITEF] as? String
+                        ?: ""
+                val operador =
+                    uiState.editableSettings[MSitefSettingsKey.OPERADOR] as? String
+                        ?: ""
+                val cnpjCpf =
+                    uiState.editableSettings[MSitefSettingsKey.CNPJ_CPF] as? String
+                        ?: ""
+                val cnpjAutomacao =
+                    uiState.editableSettings[MSitefSettingsKey.CNPJ_AUTOMACAO] as? String
+                        ?: ""
+                val isPrintingEnabled =
+                    uiState.editableSettings[MainSettingsKeys.PRINT_RECEIPT] as? Boolean
+                        ?: false
+
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -93,9 +104,11 @@ fun SettingsPage(
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     horizontalAlignment = Alignment.Start
                 ) {
+
+
                     item {
                         FinTextField(
-                            value = mSitefSettings.empresaSitef,
+                            value = empresaSitef,
                             onValueChange = viewModel::updateEmpresaSitef,
                             label = "Empresa SiTef",
                             modifier = Modifier.padding(bottom = 16.dp)
@@ -104,7 +117,7 @@ fun SettingsPage(
 
                     item {
                         FinTextField(
-                            value = mSitefSettings.enderecoSitef,
+                            value = enderecoSitef,
                             onValueChange = viewModel::updateEnderecoSitef,
                             label = "Endereço IP do SitDemo",
                             modifier = Modifier.padding(bottom = 16.dp)
@@ -113,7 +126,7 @@ fun SettingsPage(
 
                     item {
                         FinTextField(
-                            value = mSitefSettings.operador,
+                            value = operador,
                             onValueChange = viewModel::updateOperador,
                             label = "Operador",
                             modifier = Modifier.padding(bottom = 16.dp)
@@ -122,7 +135,7 @@ fun SettingsPage(
 
                     item {
                         FinTextField(
-                            value = mSitefSettings.cnpjCpf,
+                            value = cnpjCpf,
                             onValueChange = viewModel::updateCnpjCpf,
                             label = "CNPJ ou CPF",
                             modifier = Modifier.padding(bottom = 16.dp)
@@ -131,11 +144,10 @@ fun SettingsPage(
 
                     item {
                         FinTextField(
-                            value = mSitefSettings.timeoutColeta,
-                            onValueChange = viewModel::updateTimeoutColeta,
-                            label = "Timeout (segundos)",
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.padding(bottom = 24.dp)
+                            value = cnpjAutomacao,
+                            onValueChange = viewModel::updateCnpjAutomacao,
+                            label = "CNPJ da Automação",
+                            modifier = Modifier.padding(bottom = 16.dp)
                         )
                     }
 
@@ -143,23 +155,25 @@ fun SettingsPage(
                         FinSwitch(
                             title = "Imprimir comprovantes",
                             subtitle = "Habilitar impressão automática de comprovantes",
-                            isChecked = FinApplication.printReceipt,
-                            onCheckedChange = viewModel::toggleImprimirComprovantes
+                            isChecked = isPrintingEnabled,
+                            onCheckedChange = viewModel::onPrintReceiptToggle
                         )
                     }
                 }
 
                 FinButton(
-                    text =  "Menu administrativo"
+                    text = stringResource(R.string.menu_administrativo)
                 ) {
-                    val intent = Intent("br.com.softwareexpress.sitef.msitef.ACTIVITY_CLISITEF").apply {
-                        putExtra("modalidade", "110") // 110 é geralmente Menu Administrativo
-                        putExtra("empresaSitef", MSiTefData.data.empresaSitef)
-                        putExtra("enderecoSitef", MSiTefData.data.enderecoSitef)
-                        putExtra("operador", MSiTefData.data.operador)
-                        putExtra("CNPJ_CPF", MSiTefData.data.cnpjCpf)
-                        putExtra("valor", "0")
-                    }
+                    val intent =
+                        Intent("br.com.softwareexpress.sitef.msitef.ACTIVITY_CLISITEF").apply {
+                            putExtra("modalidade", "110")
+                            putExtra("empresaSitef", empresaSitef)
+                            putExtra("enderecoSitef", enderecoSitef.getFullAddress())
+                            putExtra("operador", operador)
+                            putExtra("CNPJ_CPF", cnpjCpf)
+                            putExtra("cnpj_automacao", cnpjAutomacao)
+                            putExtra("valor", "0")
+                        }
 
                     try {
                         adminMenuLauncher.launch(intent)

@@ -62,7 +62,7 @@ class MSitefPaymentActivity : AppCompatActivity() {
         if (requestCode == FISERV_REQUEST_CODE) {
             val callback = MSitefPaymentHolder.callback
 
-            val response = MSitefPaymentResponse(data)
+            val response = MSitefResponse(data)
             Log.d(TAG, "Payment Response: $response")
 
             when (resultCode) {

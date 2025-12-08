@@ -23,3 +23,8 @@ fun Double.toStringWithoutDots(): String {
     val valueFormat = String.format(Locale.ROOT, "%.2f", this)
     return valueFormat.replace(".", "")
 }
+
+/** Converte um endereço IP em um endereço padrão esperado pelo SiTef */
+fun String.getFullAddress(): String {
+    return "$this;$this:20036"
+}

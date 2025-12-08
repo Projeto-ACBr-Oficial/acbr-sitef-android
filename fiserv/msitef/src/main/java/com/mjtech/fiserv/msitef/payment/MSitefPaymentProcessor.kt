@@ -8,15 +8,15 @@ import com.mjtech.domain.payment.model.Payment
 import com.mjtech.domain.payment.model.PaymentType
 import com.mjtech.domain.payment.repository.PaymentCallback
 import com.mjtech.domain.payment.repository.PaymentProcessor
-import com.mjtech.fiserv.msitef.common.CNPJ_CPF
-import com.mjtech.fiserv.msitef.common.COM_EXTERNA
-import com.mjtech.fiserv.msitef.common.EMPRESA_SITEF
-import com.mjtech.fiserv.msitef.common.ENDERECO_SITEF
-import com.mjtech.fiserv.msitef.common.MSiTefData
-import com.mjtech.fiserv.msitef.common.OPERADOR
-import com.mjtech.fiserv.msitef.common.TIMEOUT_COLETA
+import com.mjtech.domain.settings.model.Settings
+import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_AUTOMACAO
+import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_CPF
+import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.EMPRESA_SITEF
+import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.ENDERECO_SITEF
+import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.OPERADOR
 import com.mjtech.fiserv.msitef.common.getCurrentDate
 import com.mjtech.fiserv.msitef.common.getCurrentTime
+import com.mjtech.fiserv.msitef.common.getFullAddress
 import com.mjtech.fiserv.msitef.common.toStringWithoutDots
 
 internal class MSitefPaymentProcessor(private val context: Context) : PaymentProcessor {
@@ -27,20 +27,25 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
     ) {
         val modalidade = mapPaymentMethod(payment.type)
         val valor = payment.amount.toStringWithoutDots()
-        val restricoes = mapRestriction(
-            payment.type,
-            payment.installmentDetails?.installments ?: 1
-        )
+        val restricoes = mapRestriction(payment.type)
+
+        val empresaSitef = Settings.getValue(EMPRESA_SITEF, "")
+        val enderecoSitef = Settings.getValue(ENDERECO_SITEF, "")
+        val operador = Settings.getValue(OPERADOR, "")
+        val cnpjCpf = Settings.getValue(CNPJ_CPF, "")
+        val cnpjAutomacao = Settings.getValue(CNPJ_AUTOMACAO, "")
 
         Log.d(TAG, payment.toString())
 
         val fiservIntent = Intent("br.com.softwareexpress.sitef.msitef.ACTIVITY_CLISITEF").apply {
 
+
             // Parâmetros de entrada para o SiTef
-            putExtra("empresaSitef", MSiTefData.data.empresaSitef)
-            putExtra("enderecoSitef", MSiTefData.data.enderecoSitef)
-            putExtra("operador", MSiTefData.data.operador)
-            putExtra("CNPJ_CPF", MSiTefData.data.cnpjCpf)
+            putExtra("empresaSitef", empresaSitef)
+            putExtra("enderecoSitef", enderecoSitef.getFullAddress())
+            putExtra("operador", operador)
+            putExtra("CNPJ_CPF", cnpjCpf)
+            putExtra("cnpj_automacao", cnpjAutomacao)
 
             // Dados da transação
             putExtra("data", getCurrentDate())
@@ -60,10 +65,8 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
             }
 
             // Confiugurações adicionais
-            putExtra("timeoutColeta", MSiTefData.data.timeoutColeta)
-            putExtra("comExterna", COM_EXTERNA)
-
-
+            putExtra("timeoutColeta", "60")
+            putExtra("comExterna", "0")
 
             Log.d(TAG, "Intent extras: ${this.extras}")
         }
@@ -91,8 +94,8 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
         }
     }
 
-    /** Mapeia as restrições de transação com base no tipo de pagamento e parcelamento */
-    private fun mapRestriction(method: PaymentType, installment: Int): String {
+    /** Mapeia as restrições de transação com base no tipo de pagamento */
+    private fun mapRestriction(method: PaymentType): String {
         val restrictionType = "TransacoesHabilitadas"
 
         val restrictionCode = when (method) {
