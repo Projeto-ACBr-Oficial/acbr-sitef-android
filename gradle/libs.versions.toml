@@ -17,6 +17,7 @@ appcompat = "1.7.1"
 material = "1.13.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
+data-store = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +44,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+data-store = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "data-store" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
