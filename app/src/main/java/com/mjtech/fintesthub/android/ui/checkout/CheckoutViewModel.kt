@@ -15,6 +15,8 @@ import com.mjtech.domain.payment.repository.PaymentRepository
 import com.mjtech.domain.print.model.TextPrint
 import com.mjtech.domain.print.model.TextStyle
 import com.mjtech.domain.print.repository.PrintRepository
+import com.mjtech.domain.settings.model.Settings
+import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys.PRINT_RECEIPT
 import com.mjtech.fintesthub.android.ui.common.mappers.toUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,14 +35,16 @@ class CheckoutViewModel(
 
     init {
         loadPaymentMethods()
+        getPrintReceiptFlag()
     }
 
     private val paymentCallback = object : PaymentCallback {
         override fun onSuccess(transactionId: String, message: String?) {
             Log.d(TAG, "Payment successful: $transactionId, receipt: $message")
 
-            printReceipt(message ?: "null")
-
+            if (uiState.value.isPrintEnabled) {
+                printReceipt(message ?: "null")
+            }
         }
 
         override fun onFailure(errorCode: String, errorMessage: String) {
@@ -128,6 +132,14 @@ class CheckoutViewModel(
             }
 
             paymentProcessor.processPayment(currentPayment, paymentCallback)
+        }
+    }
+
+    private fun getPrintReceiptFlag() {
+        _uiState.update {
+            it.copy(
+                isPrintEnabled = Settings.getValue(PRINT_RECEIPT, false)
+            )
         }
     }
 

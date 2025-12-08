@@ -36,6 +36,10 @@ fun SettingsPage(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val isPrintingEnabled =
+        uiState.editableSettings[MainSettingsKeys.PRINT_RECEIPT] as? Boolean
+            ?: false
+
     val adminMenuLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { result ->
@@ -43,17 +47,14 @@ fun SettingsPage(
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
                     val data: Intent? = result.data
+                    val response = MSitefResponse(data)
 
-                    val model = MSitefResponse(data)
-
-                    viewModel.printReceipt(model.viaCliente.toString())
-
-                    Log.d("SettingsPage", "Retorno do SiTef -. Comprovante coletado.")
-
+                    if (isPrintingEnabled) {
+                        viewModel.printReceipt(response.viaCliente.toString())
+                    }
                 }
 
                 Activity.RESULT_CANCELED -> {
-
                     Log.d("SettingsPage", "Retorno do SiTef - Operação cancelada.")
                 }
 
@@ -93,9 +94,6 @@ fun SettingsPage(
                 val cnpjAutomacao =
                     uiState.editableSettings[MSitefSettingsKey.CNPJ_AUTOMACAO] as? String
                         ?: ""
-                val isPrintingEnabled =
-                    uiState.editableSettings[MainSettingsKeys.PRINT_RECEIPT] as? Boolean
-                        ?: false
 
                 LazyColumn(
                     modifier = Modifier
