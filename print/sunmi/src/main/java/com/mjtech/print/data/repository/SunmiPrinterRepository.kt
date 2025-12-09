@@ -38,7 +38,8 @@ class SunmiPrinterRepository(private val sunmiPrinterManager: SunmiPrinterManage
 
             printer!!.lineApi().initLine(baseStyle)
             printer.lineApi().printText(textPrint.text, textStyle)
-            printer.lineApi().printText("\n\n\n", textStyle)
+            printer.lineApi().autoOut()
+            emit(Result.Success(Unit))
         } catch (e: Exception) {
             emit(Result.Error("Erro ao imprimir texto: ${e.message}"))
         }
@@ -59,7 +60,8 @@ class SunmiPrinterRepository(private val sunmiPrinterManager: SunmiPrinterManage
 
             printer!!.lineApi().initLine(baseStyle)
             printer.lineApi().printText(linesText[0].text, textStyle)
-            printer.lineApi().printText("\n\n\n", textStyle)
+            printer.lineApi().autoOut()
+            emit(Result.Success(Unit))
         } catch (e: Exception) {
             emit(Result.Error("Erro ao imprimir texto: ${e.message}"))
         }
@@ -76,7 +78,7 @@ class SunmiPrinterRepository(private val sunmiPrinterManager: SunmiPrinterManage
                 .setDot(9)
                 .setAlign(Align.CENTER)
             printer!!.lineApi().printQrCode(text, textStyle)
-            printer.lineApi().printText("\n\n\n", TextStyle.getStyle())
+            printer.lineApi().autoOut()
             emit(Result.Success(Unit))
         } catch (e: Exception) {
             emit(Result.Error("Erro ao imprimir QR Code: ${e.message}"))
@@ -98,9 +100,8 @@ class SunmiPrinterRepository(private val sunmiPrinterManager: SunmiPrinterManage
                     .setAlign(Align.CENTER)
 
                 printer!!.lineApi().printBitmap(scaledBitmap, bmpStyle)
-
-                val textStyle = TextStyle.getStyle().setAlign(Align.CENTER)
-                printer.lineApi().printText("\n\n\n", textStyle)
+                printer.lineApi().autoOut()
+                emit(Result.Success(Unit))
             } else {
                 emit(Result.Error("Erro ao carregar imagem"))
             }
