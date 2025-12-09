@@ -171,6 +171,7 @@ fun SettingsPage(
                             putExtra("CNPJ_CPF", cnpjCpf)
                             putExtra("cnpj_automacao", cnpjAutomacao)
                             putExtra("valor", "0")
+                            putExtra("restricoes", "TransacoesAdicionaisHabilitadas=8;3919")
                         }
 
                     try {
