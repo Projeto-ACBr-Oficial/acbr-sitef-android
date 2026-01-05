@@ -64,7 +64,7 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
                 putExtra("restricoes", restricoes)
             }
 
-            // Confiugurações adicionais
+            // Configurações adicionais
             putExtra("timeoutColeta", "60")
             putExtra("comExterna", "0")
 

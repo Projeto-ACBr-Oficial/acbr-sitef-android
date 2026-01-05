@@ -9,7 +9,9 @@ import com.mjtech.domain.print.model.TextStyle
 import com.mjtech.domain.print.repository.PrintRepository
 import com.mjtech.domain.settings.model.Setting
 import com.mjtech.domain.settings.model.Settings
+import com.mjtech.domain.settings.repository.AdminMenuCallback
 import com.mjtech.domain.settings.repository.SettingsRepository
+import com.mjtech.domain.settings.repository.TefAdminAction
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys
 import com.mjtech.fiserv.msitef.common.MSitefSettingsKey
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,12 +23,23 @@ typealias EditableSettings = Map<String, Any>
 
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
+    private val tefAdminAction: TefAdminAction,
     private val printRepository: PrintRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
 
     val uiState: StateFlow<SettingsUiState> = _uiState
+
+    private val adminMenuCallback = object : AdminMenuCallback {
+        override fun onSuccess(receipt: String?) {
+            printReceipt(receipt ?: "null")
+        }
+
+        override fun onFailure(errorCode: String, errorMessage: String) {
+            Log.e(TAG, "$errorCode - $errorMessage")
+        }
+    }
 
     init {
         loadEditableSettings()
@@ -90,6 +103,10 @@ class SettingsViewModel(
                 }
             }
         }
+    }
+
+    fun openTefAdminMenu() {
+        tefAdminAction.openAdminMenu(adminMenuCallback)
     }
 
     private fun updateSettingValue(key: String, newValue: Any) {

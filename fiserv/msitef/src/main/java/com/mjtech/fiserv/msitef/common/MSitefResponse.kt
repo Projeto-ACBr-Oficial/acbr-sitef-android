@@ -1,8 +1,8 @@
-package com.mjtech.fiserv.msitef.payment
+package com.mjtech.fiserv.msitef.common
 
 import android.content.Intent
 
-data class MSitefResponse(
+internal data class MSitefResponse(
     val codResp: String?,
     val compDadosConf: String?,
     val codTrans: String?,

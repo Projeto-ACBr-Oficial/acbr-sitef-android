@@ -1,10 +1,5 @@
 package com.mjtech.fintesthub.android.ui.settings
 
-import android.app.Activity
-import android.content.Intent
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,8 +20,6 @@ import com.mjtech.fintesthub.android.ui.common.components.FinButton
 import com.mjtech.fintesthub.android.ui.common.components.FinSwitch
 import com.mjtech.fintesthub.android.ui.common.components.FinTextField
 import com.mjtech.fiserv.msitef.common.MSitefSettingsKey
-import com.mjtech.fiserv.msitef.common.getFullAddress
-import com.mjtech.fiserv.msitef.payment.MSitefResponse
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -35,35 +28,6 @@ fun SettingsPage(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val isPrintingEnabled =
-        uiState.editableSettings[MainSettingsKeys.PRINT_RECEIPT] as? Boolean
-            ?: false
-
-    val adminMenuLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult(),
-        onResult = { result ->
-
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    val data: Intent? = result.data
-                    val response = MSitefResponse(data)
-
-                    if (isPrintingEnabled) {
-                        viewModel.printReceipt(response.viaCliente.toString())
-                    }
-                }
-
-                Activity.RESULT_CANCELED -> {
-                    Log.d("SettingsPage", "Retorno do SiTef - Operação cancelada.")
-                }
-
-                else -> {
-                    Log.e("SettingsPage", "Retorno do SiTef - Erro: ${result.resultCode}")
-                }
-            }
-        }
-    )
 
     Box(
         modifier = Modifier
@@ -94,6 +58,9 @@ fun SettingsPage(
                 val cnpjAutomacao =
                     uiState.editableSettings[MSitefSettingsKey.CNPJ_AUTOMACAO] as? String
                         ?: ""
+                val isPrintingEnabled =
+                    uiState.editableSettings[MainSettingsKeys.PRINT_RECEIPT] as? Boolean
+                        ?: false
 
                 LazyColumn(
                     modifier = Modifier
@@ -160,26 +127,9 @@ fun SettingsPage(
                 }
 
                 FinButton(
-                    text = stringResource(R.string.menu_administrativo)
-                ) {
-                    val intent =
-                        Intent("br.com.softwareexpress.sitef.msitef.ACTIVITY_CLISITEF").apply {
-                            putExtra("modalidade", "110")
-                            putExtra("empresaSitef", empresaSitef)
-                            putExtra("enderecoSitef", enderecoSitef.getFullAddress())
-                            putExtra("operador", operador)
-                            putExtra("CNPJ_CPF", cnpjCpf)
-                            putExtra("cnpj_automacao", cnpjAutomacao)
-                            putExtra("valor", "0")
-                            putExtra("restricoes", "TransacoesAdicionaisHabilitadas=8;3919")
-                        }
-
-                    try {
-                        adminMenuLauncher.launch(intent)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
+                    text = stringResource(R.string.menu_administrativo),
+                    onClick = viewModel::openTefAdminMenu
+                )
             }
         }
     }

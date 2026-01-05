@@ -8,9 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mjtech.fiserv.msitef.R
+import com.mjtech.fiserv.msitef.common.MSitefResponse
 import com.mjtech.fiserv.msitef.databinding.ActivityMsitefPaymentBinding
 
-class MSitefPaymentActivity : AppCompatActivity() {
+internal class MSitefPaymentActivity : AppCompatActivity() {
 
     private val FISERV_REQUEST_CODE = 1001
 

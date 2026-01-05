@@ -1,3 +1,4 @@
 <resources>
-    <string name="payment_text">Seu pagamento está sendo processado...</string>
+    <string name="payment_text">Seu pagamento está sendo processado…</string>
+    <string name="menu_administrativo">Menu administrativo</string>
 </resources>

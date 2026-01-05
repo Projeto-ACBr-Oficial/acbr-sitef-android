@@ -20,5 +20,5 @@ val appModule = module {
 
     viewModel { CheckoutViewModel(get(), get(), get()) }
 
-    viewModel { SettingsViewModel(get(), get()) }
+    viewModel { SettingsViewModel(get(), get(),get()) }
 }
