@@ -12,6 +12,7 @@ import com.mjtech.domain.settings.model.Settings
 import com.mjtech.domain.settings.repository.AdminMenuCallback
 import com.mjtech.domain.settings.repository.SettingsRepository
 import com.mjtech.domain.settings.repository.TefAdminAction
+import com.mjtech.fintesthub.android.FinApplication.Environment
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys
 import com.mjtech.fiserv.msitef.common.MSitefSettingsKey
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,6 +44,16 @@ class SettingsViewModel(
 
     init {
         loadEditableSettings()
+    }
+
+    fun updateEnvironment(newEnv: Environment) {
+        val key = MainSettingsKeys.ENVIRONMENT_TYPE
+
+        val valueToSave = newEnv.value
+
+        updateSettingValue(key, valueToSave)
+
+        saveSetting(key, valueToSave)
     }
 
     fun updateEmpresaSitef(newValue: String) {

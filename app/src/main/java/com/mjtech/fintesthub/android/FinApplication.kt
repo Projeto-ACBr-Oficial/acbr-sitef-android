@@ -2,6 +2,7 @@ package com.mjtech.fintesthub.android
 
 import android.app.Application
 import com.mjtech.domain.settings.model.Setting
+import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys.ENVIRONMENT_TYPE
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys.PRINT_RECEIPT
 import com.mjtech.fintesthub.android.di.appModule
 import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_AUTOMACAO
@@ -21,13 +22,22 @@ class FinApplication : Application() {
          * Configuração padrão e/ou inicial
          */
         val DEFAULT_SETTINGS = listOf(
+            Setting(
+                key = ENVIRONMENT_TYPE,
+                value = Environment.MSITEF.value
+            ),
             Setting(key = PRINT_RECEIPT, value = true),
             Setting(key = EMPRESA_SITEF, value = "00000000"),
             Setting(key = ENDERECO_SITEF, value = "127.0.0.1"),
             Setting(key = OPERADOR, value = "0001"),
             Setting(key = CNPJ_CPF, value = "12345678912345"),
-            Setting(key = CNPJ_AUTOMACAO, value = "12345678912345"),
+            Setting(key = CNPJ_AUTOMACAO, value = "12345678912345")
         )
+    }
+
+    enum class Environment(val value: Int, val label: String) {
+        MSITEF(0, "m-SiTef"),
+        CLISITEF(1, "CliSiTef")
     }
 
     override fun onCreate() {
