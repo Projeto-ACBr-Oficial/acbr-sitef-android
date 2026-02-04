@@ -1,4 +1,4 @@
-package com.mjtech.fintesthub.android.ui.checkout
+package com.mjtech.fintesthub.android.ui.checkout.models
 
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color

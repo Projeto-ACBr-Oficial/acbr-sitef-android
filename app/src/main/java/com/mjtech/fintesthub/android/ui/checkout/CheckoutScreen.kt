@@ -44,6 +44,16 @@ fun CheckoutScreen(
         viewModel.setTransactionAmount(valueInCents)
     }
 
+    uiState.transactionResult?.let { result ->
+        TransactionResultDialog(
+            result = result,
+            onDismiss = {
+                viewModel.resetTransactionResult()
+                if (result.isSuccess) onCancel()
+            }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

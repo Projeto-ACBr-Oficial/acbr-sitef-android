@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mjtech.fintesthub.android.R
+import com.mjtech.fintesthub.android.ui.checkout.models.PaymentMethodUi
 import com.mjtech.fintesthub.android.ui.theme.Gray300
 import com.mjtech.fintesthub.android.ui.theme.Gray600
 import com.mjtech.fintesthub.android.ui.theme.Typography

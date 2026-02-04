@@ -17,6 +17,7 @@ import com.mjtech.domain.print.model.TextStyle
 import com.mjtech.domain.print.repository.PrintRepository
 import com.mjtech.domain.settings.model.Settings
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys.PRINT_RECEIPT
+import com.mjtech.fintesthub.android.ui.checkout.models.TransactionResultUi
 import com.mjtech.fintesthub.android.ui.common.mappers.toUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,14 +46,42 @@ class CheckoutViewModel(
             if (uiState.value.isPrintEnabled) {
                 printReceipt(message ?: "null")
             }
+
+            _uiState.update {
+                it.copy(
+                    transactionResult = TransactionResultUi(
+                        isSuccess = true,
+                        title = "Sucesso!",
+                        message = message ?: "Transação realizada com ID: $transactionId"
+                    )
+                )
+            }
         }
 
         override fun onFailure(errorCode: String, errorMessage: String) {
             Log.e(TAG, "Payment failed: $errorCode, message: $errorMessage")
+            _uiState.update {
+                it.copy(
+                    transactionResult = TransactionResultUi(
+                        isSuccess = false,
+                        title = "Falha na Transação",
+                        message = "Erro [$errorCode]: $errorMessage"
+                    )
+                )
+            }
         }
 
         override fun onCancelled(message: String?) {
             Log.e(TAG, "Payment cancelled: message: $message")
+            _uiState.update {
+                it.copy(
+                    transactionResult = TransactionResultUi(
+                        isSuccess = false,
+                        title = "Cancelado",
+                        message = message ?: "A operação foi interrompida pelo usuário."
+                    )
+                )
+            }
         }
     }
 
@@ -115,7 +144,11 @@ class CheckoutViewModel(
             if (transactionAmount <= 0) {
                 _uiState.update {
                     it.copy(
-                        errorMessage = "Invalid transaction amount"
+                        transactionResult = TransactionResultUi(
+                            isSuccess = false,
+                            title = "Erro",
+                            message = "O valor da transação deve ser maior que zero."
+                        )
                     )
                 }
                 return
@@ -125,7 +158,11 @@ class CheckoutViewModel(
             if (currentPayment == null) {
                 _uiState.update {
                     it.copy(
-                        errorMessage = "Payment information is missing"
+                        transactionResult = TransactionResultUi(
+                            isSuccess = false,
+                            title = "Erro",
+                            message = "Erro desconhecido."
+                        )
                     )
                 }
                 return
@@ -133,6 +170,10 @@ class CheckoutViewModel(
 
             paymentProcessor.processPayment(currentPayment, paymentCallback)
         }
+    }
+
+    fun resetTransactionResult() {
+        _uiState.update { it.copy(transactionResult = null) }
     }
 
     private fun getPrintReceiptFlag() {
