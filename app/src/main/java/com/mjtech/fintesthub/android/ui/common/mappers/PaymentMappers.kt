@@ -3,7 +3,7 @@ package com.mjtech.fintesthub.android.ui.common.mappers
 import androidx.compose.ui.graphics.Color
 import com.mjtech.domain.payment.model.PaymentMethod
 import com.mjtech.fintesthub.android.R
-import com.mjtech.fintesthub.android.ui.checkout.PaymentMethodUi
+import com.mjtech.fintesthub.android.ui.checkout.models.PaymentMethodUi
 
 fun PaymentMethod.toUi(): PaymentMethodUi {
     val (iconRes, color, description) = getUiAssetsForPaymentType(this.id)
