@@ -27,7 +27,7 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
     ) {
         val modalidade = mapPaymentMethod(payment.type)
         val valor = payment.amount.toStringWithoutDots()
-        val restricoes = mapRestriction(payment.type)
+        val restricoes = mapRestriction(payment.type, payment.installmentDetails?.installments ?: 1)
 
         val empresaSitef = Settings.getValue(EMPRESA_SITEF, "")
         val enderecoSitef = Settings.getValue(ENDERECO_SITEF, "")
@@ -60,9 +60,7 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
                 putExtra("numParcelas", payment.installmentDetails?.installments.toString())
             }
 
-            if (payment.type != PaymentType.CREDIT) {
-                putExtra("restricoes", restricoes)
-            }
+            putExtra("restricoes", restricoes)
 
             // Confiugurações adicionais
             putExtra("timeoutColeta", "60")
@@ -95,12 +93,16 @@ internal class MSitefPaymentProcessor(private val context: Context) : PaymentPro
     }
 
     /** Mapeia as restrições de transação com base no tipo de pagamento */
-    private fun mapRestriction(method: PaymentType): String {
+    private fun mapRestriction(method: PaymentType, installment: Int): String {
         val restrictionType = "TransacoesHabilitadas"
 
         val restrictionCode = when (method) {
             PaymentType.DEBIT -> "16"
             PaymentType.VOUCHER -> "16"
+            PaymentType.CREDIT -> {
+                if (installment > 1) "27" else "26"
+            }
+
             PaymentType.PIX -> "7;8;3919"
             else -> "0"
         }
