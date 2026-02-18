@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fiserv</string>
+    <string name="app_name">Fiserv Android</string>
     <string name="demo">Demo</string>
     <string name="pay">Pagar</string>
     <string name="button_icon">Ícone do botão</string>
