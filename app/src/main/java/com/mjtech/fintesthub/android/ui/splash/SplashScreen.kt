@@ -47,7 +47,8 @@ fun SplashScreen(
                 .padding(paddingValues)
         ) {
             Column(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_credit_card),
