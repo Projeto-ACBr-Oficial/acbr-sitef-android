@@ -11,7 +11,7 @@ import com.mjtech.fiserv.msitef.R
 import com.mjtech.fiserv.msitef.common.MSitefResponse
 import com.mjtech.fiserv.msitef.databinding.ActivityMsitefAdminBinding
 
-class MSitefAdminActivity : AppCompatActivity() {
+internal class MSitefAdminActivity : AppCompatActivity() {
 
     private val FISERV_ADMIN_REQUEST_CODE = 1002
 
