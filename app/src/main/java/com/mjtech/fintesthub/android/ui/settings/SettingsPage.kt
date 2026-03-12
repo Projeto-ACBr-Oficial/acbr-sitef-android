@@ -1,5 +1,8 @@
 package com.mjtech.fintesthub.android.ui.settings
 
+import android.app.Activity
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,13 +12,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mjtech.fintesthub.android.FinApplication.Environment
+import com.mjtech.fintesthub.android.MainActivity
 import com.mjtech.fintesthub.android.R
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys
 import com.mjtech.fintesthub.android.ui.common.components.FinButton
@@ -30,7 +36,19 @@ fun SettingsPage(
     viewModel: SettingsViewModel = koinViewModel()
 ) {
 
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.restartEvent.collect {
+            val intent = Intent(context, MainActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            }
+            Toast.makeText(context, "Ambiente alterado. Reiniciando aplicação...", Toast.LENGTH_SHORT).show()
+            context.startActivity(intent)
+            (context as? Activity)?.finish()
+        }
+    }
 
     Box(
         modifier = Modifier

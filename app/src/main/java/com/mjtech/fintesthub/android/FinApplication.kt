@@ -5,6 +5,7 @@ import com.mjtech.domain.settings.model.Setting
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys.ENVIRONMENT_TYPE
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys.PRINT_RECEIPT
 import com.mjtech.fintesthub.android.di.appModule
+import com.mjtech.fiserv.clisitef.di.clisitefModule
 import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_AUTOMACAO
 import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_CPF
 import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.EMPRESA_SITEF
@@ -35,9 +36,9 @@ class FinApplication : Application() {
         )
     }
 
-    enum class Environment(val value: Int, val label: String) {
-        MSITEF(0, "m-SiTef"),
-        CLISITEF(1, "CliSiTef")
+    enum class Environment(val value: Int, val label: String, val text: String) {
+        MSITEF(0, "m-SiTef", "msitef"),
+        CLISITEF(1, "CliSiTef","clisitef")
     }
 
     override fun onCreate() {
@@ -46,8 +47,9 @@ class FinApplication : Application() {
             androidContext(this@FinApplication)
             modules(
                 appModule,
+                sunmiPrinterModule,
                 msitefModule,
-                sunmiPrinterModule
+                clisitefModule,
             )
         }
     }

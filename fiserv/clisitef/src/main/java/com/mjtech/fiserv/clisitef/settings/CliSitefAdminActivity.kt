@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mjtech.fiserv.clisitef.R
 
-class ClisitefAdminActivity : AppCompatActivity() {
+internal class CliSitefAdminActivity : AppCompatActivity() {
 
 
 

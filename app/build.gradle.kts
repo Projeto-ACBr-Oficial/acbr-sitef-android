@@ -42,9 +42,15 @@ android {
 
 dependencies {
 
+    // Módulo de domínio, onde ficam as regras de negócio e modelos de dados
     implementation(project(":domain"))
+
+    // Módulo de integração com impressora em equipamentos Sunmi
     implementation(project(":print:sunmi"))
+
+    // Módulos de integração com as soluções de pagamento da Fiserv
     implementation(project(":fiserv:msitef"))
+    implementation(project(":fiserv:clisitef"))
 
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)

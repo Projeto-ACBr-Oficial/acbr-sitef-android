@@ -15,8 +15,10 @@ import com.mjtech.domain.settings.repository.TefAdminAction
 import com.mjtech.fintesthub.android.FinApplication.Environment
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys
 import com.mjtech.fiserv.msitef.common.MSitefSettingsKey
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -29,8 +31,10 @@ class SettingsViewModel(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
-
     val uiState: StateFlow<SettingsUiState> = _uiState
+
+    private val _restartEvent = Channel<Unit>(Channel.CONFLATED)
+    val restartEvent = _restartEvent.receiveAsFlow()
 
     private val adminMenuCallback = object : AdminMenuCallback {
         override fun onSuccess(receipt: String?) {
@@ -136,8 +140,14 @@ class SettingsViewModel(
             settingsRepository.saveSetting(settingToSave).collect { result ->
                 if (result is Result.Success) {
                     Settings.updateSetting(settingToSave)
+
+                    // Se a configuração alterada for o tipo de ambiente, disparamos um evento para reiniciar a aplicação
+                    // Isso é necessário para que as mudanças de ambiente sejam aplicadas corretamente
+                    if (key == MainSettingsKeys.ENVIRONMENT_TYPE) {
+                        _restartEvent.send(Unit)
+                    }
                 } else if (result is Result.Error) {
-                    Log.e(TAG, result.error)
+                    Log.e(TAG, "Erro ao salvar $key: ${result.error}")
                 }
             }
         }

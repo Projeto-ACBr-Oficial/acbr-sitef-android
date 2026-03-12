@@ -3,8 +3,9 @@
 
     <application>
         <activity
-            android:name=".settings.ClisitefAdminActivity"
-            android:exported="false" />
+            android:name=".settings.CliSitefAdminActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>
