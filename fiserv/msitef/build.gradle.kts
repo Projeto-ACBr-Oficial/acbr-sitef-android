@@ -38,6 +38,7 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+    implementation(project(":fiserv:base"))
 
     implementation(libs.koin.android)
 

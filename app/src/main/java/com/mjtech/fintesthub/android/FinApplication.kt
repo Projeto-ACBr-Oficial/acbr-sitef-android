@@ -6,11 +6,11 @@ import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys.ENVIRON
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys.PRINT_RECEIPT
 import com.mjtech.fintesthub.android.di.appModule
 import com.mjtech.fiserv.clisitef.di.clisitefModule
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_AUTOMACAO
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_CPF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.EMPRESA_SITEF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.ENDERECO_SITEF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.OPERADOR
+import com.mjtech.fiserv.base.SitefSettingsKey.CNPJ_AUTOMACAO
+import com.mjtech.fiserv.base.SitefSettingsKey.CNPJ_CPF
+import com.mjtech.fiserv.base.SitefSettingsKey.EMPRESA_SITEF
+import com.mjtech.fiserv.base.SitefSettingsKey.ENDERECO_SITEF
+import com.mjtech.fiserv.base.SitefSettingsKey.OPERADOR
 import com.mjtech.fiserv.msitef.di.msitefModule
 import com.mjtech.print.di.sunmiPrinterModule
 import org.koin.android.ext.koin.androidContext

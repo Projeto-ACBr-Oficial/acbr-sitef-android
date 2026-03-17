@@ -9,15 +9,15 @@ import com.mjtech.domain.payment.model.PaymentType
 import com.mjtech.domain.payment.repository.PaymentCallback
 import com.mjtech.domain.payment.repository.PaymentProcessor
 import com.mjtech.domain.settings.model.Settings
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_AUTOMACAO
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_CPF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.EMPRESA_SITEF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.ENDERECO_SITEF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.OPERADOR
-import com.mjtech.fiserv.msitef.common.getCurrentDate
-import com.mjtech.fiserv.msitef.common.getCurrentTime
-import com.mjtech.fiserv.msitef.common.getFullAddress
-import com.mjtech.fiserv.msitef.common.toStringWithoutDots
+import com.mjtech.fiserv.base.SitefSettingsKey.CNPJ_AUTOMACAO
+import com.mjtech.fiserv.base.SitefSettingsKey.CNPJ_CPF
+import com.mjtech.fiserv.base.SitefSettingsKey.EMPRESA_SITEF
+import com.mjtech.fiserv.base.SitefSettingsKey.ENDERECO_SITEF
+import com.mjtech.fiserv.base.SitefSettingsKey.OPERADOR
+import com.mjtech.fiserv.base.getCurrentDate
+import com.mjtech.fiserv.base.getCurrentTime
+import com.mjtech.fiserv.base.getFullAddress
+import com.mjtech.fiserv.base.toStringWithoutDots
 
 internal class MSitefPaymentProcessor(private val context: Context) : PaymentProcessor {
 

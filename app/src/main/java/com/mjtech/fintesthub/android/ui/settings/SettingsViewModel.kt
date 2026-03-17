@@ -14,7 +14,7 @@ import com.mjtech.domain.settings.repository.SettingsRepository
 import com.mjtech.domain.settings.repository.TefAdminAction
 import com.mjtech.fintesthub.android.FinApplication.Environment
 import com.mjtech.fintesthub.android.data.settings.core.MainSettingsKeys
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey
+import com.mjtech.fiserv.base.SitefSettingsKey
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -61,7 +61,7 @@ class SettingsViewModel(
     }
 
     fun updateEmpresaSitef(newValue: String) {
-        val key = MSitefSettingsKey.EMPRESA_SITEF
+        val key = SitefSettingsKey.EMPRESA_SITEF
 
         updateSettingValue(key, newValue)
 
@@ -69,7 +69,7 @@ class SettingsViewModel(
     }
 
     fun updateEnderecoSitef(newValue: String) {
-        val key = MSitefSettingsKey.ENDERECO_SITEF
+        val key = SitefSettingsKey.ENDERECO_SITEF
 
         updateSettingValue(key, newValue)
 
@@ -77,7 +77,7 @@ class SettingsViewModel(
     }
 
     fun updateOperador(newValue: String) {
-        val key = MSitefSettingsKey.OPERADOR
+        val key = SitefSettingsKey.OPERADOR
 
         updateSettingValue(key, newValue)
 
@@ -85,7 +85,7 @@ class SettingsViewModel(
     }
 
     fun updateCnpjCpf(newValue: String) {
-        val key = MSitefSettingsKey.CNPJ_CPF
+        val key = SitefSettingsKey.CNPJ_CPF
 
         updateSettingValue(key, newValue)
 
@@ -93,7 +93,7 @@ class SettingsViewModel(
     }
 
     fun updateCnpjAutomacao(newValue: String) {
-        val key = MSitefSettingsKey.CNPJ_AUTOMACAO
+        val key = SitefSettingsKey.CNPJ_AUTOMACAO
 
         updateSettingValue(key, newValue)
 

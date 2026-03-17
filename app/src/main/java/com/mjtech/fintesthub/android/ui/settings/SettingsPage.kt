@@ -28,7 +28,7 @@ import com.mjtech.fintesthub.android.ui.common.components.FinButton
 import com.mjtech.fintesthub.android.ui.common.components.FinRadioGroup
 import com.mjtech.fintesthub.android.ui.common.components.FinSwitch
 import com.mjtech.fintesthub.android.ui.common.components.FinTextField
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey
+import com.mjtech.fiserv.base.SitefSettingsKey
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -44,7 +44,11 @@ fun SettingsPage(
             val intent = Intent(context, MainActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
-            Toast.makeText(context, "Ambiente alterado. Reiniciando aplicação...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Ambiente alterado. Reiniciando aplicação...",
+                Toast.LENGTH_SHORT
+            ).show()
             context.startActivity(intent)
             (context as? Activity)?.finish()
         }
@@ -65,19 +69,19 @@ fun SettingsPage(
                     .fillMaxSize()
             ) {
                 val empresaSitef =
-                    uiState.editableSettings[MSitefSettingsKey.EMPRESA_SITEF] as? String
+                    uiState.editableSettings[SitefSettingsKey.EMPRESA_SITEF] as? String
                         ?: ""
                 val enderecoSitef =
-                    uiState.editableSettings[MSitefSettingsKey.ENDERECO_SITEF] as? String
+                    uiState.editableSettings[SitefSettingsKey.ENDERECO_SITEF] as? String
                         ?: ""
                 val operador =
-                    uiState.editableSettings[MSitefSettingsKey.OPERADOR] as? String
+                    uiState.editableSettings[SitefSettingsKey.OPERADOR] as? String
                         ?: ""
                 val cnpjCpf =
-                    uiState.editableSettings[MSitefSettingsKey.CNPJ_CPF] as? String
+                    uiState.editableSettings[SitefSettingsKey.CNPJ_CPF] as? String
                         ?: ""
                 val cnpjAutomacao =
-                    uiState.editableSettings[MSitefSettingsKey.CNPJ_AUTOMACAO] as? String
+                    uiState.editableSettings[SitefSettingsKey.CNPJ_AUTOMACAO] as? String
                         ?: ""
                 val isPrintingEnabled =
                     uiState.editableSettings[MainSettingsKeys.PRINT_RECEIPT] as? Boolean

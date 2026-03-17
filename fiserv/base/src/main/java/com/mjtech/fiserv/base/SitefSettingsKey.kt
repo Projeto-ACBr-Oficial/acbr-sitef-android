@@ -1,6 +1,6 @@
-package com.mjtech.fiserv.msitef.common
+package com.mjtech.fiserv.base
 
-object MSitefSettingsKey {
+object SitefSettingsKey {
 
     const val EMPRESA_SITEF = "EMPRESA_SITEF"
     const val ENDERECO_SITEF = "ENDERECO_SITEF"

@@ -49,6 +49,7 @@ dependencies {
     implementation(project(":print:sunmi"))
 
     // Módulos de integração com as soluções de pagamento da Fiserv
+    implementation(project(":fiserv:base"))
     implementation(project(":fiserv:msitef"))
     implementation(project(":fiserv:clisitef"))
 
