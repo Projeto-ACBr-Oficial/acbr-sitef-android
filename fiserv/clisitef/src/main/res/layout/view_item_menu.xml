@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:parentTag="android.widget.LinearLayout"
     tools:orientation="vertical">
 
     <TextView
         android:id="@+id/tvLabel"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="8.dp"
-        android:textSize="16sp"
+        android:textSize="18sp"
         tools:text="Texto de Exemplo" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_light" />
+        android:background="@color/main_color" />
 </merge>

@@ -6,11 +6,11 @@ import android.content.Intent
 import com.mjtech.domain.settings.model.Settings
 import com.mjtech.domain.settings.repository.AdminMenuCallback
 import com.mjtech.domain.settings.repository.TefAdminAction
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_AUTOMACAO
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.CNPJ_CPF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.EMPRESA_SITEF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.ENDERECO_SITEF
-import com.mjtech.fiserv.msitef.common.MSitefSettingsKey.OPERADOR
+import com.mjtech.fiserv.base.SitefSettingsKey.CNPJ_AUTOMACAO
+import com.mjtech.fiserv.base.SitefSettingsKey.CNPJ_CPF
+import com.mjtech.fiserv.base.SitefSettingsKey.EMPRESA_SITEF
+import com.mjtech.fiserv.base.SitefSettingsKey.ENDERECO_SITEF
+import com.mjtech.fiserv.base.SitefSettingsKey.OPERADOR
 
 internal class MSitefAdminHandler(private val context: Context) : TefAdminAction {
 

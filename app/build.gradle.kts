@@ -38,6 +38,15 @@ android {
     buildFeatures {
         compose = true
     }
+
+    flavorDimensions.add("brand")
+    productFlavors {
+        create("p2") {
+            dimension = "brand"
+            applicationIdSuffix = ".p2"
+            versionNameSuffix = "-P2"
+        }
+    }
 }
 
 dependencies {

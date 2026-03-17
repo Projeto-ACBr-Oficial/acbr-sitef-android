@@ -1,0 +1,10 @@
+[Geral]
+TransacoesAdicionaisHabilitadas=7;8;58;3299;4439
+DataEmAmbienteDeDesenvolvimento=AAAAMMDD
+
+[CliSiTef]
+HabilitaTrace= 1
+DiretorioTrace= C:\SiTef\TRACE
+
+[CliSiTefI]
+HabilitaTrace= 1
