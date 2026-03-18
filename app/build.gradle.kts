@@ -20,7 +20,7 @@ android {
     }
 
     signingConfigs {
-        // Para trabalhar com a linha GPOS e Positivo é necessário usar assinatura no app
+        // Para trabalhar com os terminais GPOS e Positivo é necessário usar assinatura no app
         named("debug") { }
         create("gpos") {
             storeFile = file("Caminho\\.jks")
@@ -51,7 +51,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = null
         }
     }
     compileOptions {

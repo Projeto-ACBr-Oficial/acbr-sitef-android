@@ -17,6 +17,7 @@ android {
     sourceSets {
         getByName("main") {
             jniLibs.srcDirs("jniLibs/armeabi-v7a/")
+            jniLibs.srcDirs("jniLibs/arm64-v8a/")
         }
     }
 
@@ -56,6 +57,11 @@ android {
 dependencies {
 
     implementation(files("./libs/clisitef-android.jar"))
+
+    // Adicione aqui as bibliotecas compartilhadas referente ao terminal.
+    // Exemplo das bibliotecas do GPOS780:
+    //implementation(files("./libs/libppcomp-001.37-250509-gpos780-release.aar"))
+    //implementation(files("./libs/libgedi-2.1.2-7384e13-gpos780Neo-payment-release.aar"))
 
     implementation(project(":domain"))
     implementation(project(":fiserv:base"))
