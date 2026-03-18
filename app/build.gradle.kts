@@ -19,6 +19,23 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        // Para trabalhar com a linha GPOS e Positivo é necessário usar assinatura no app
+        named("debug") { }
+        create("gpos") {
+            storeFile = file("Caminho\\.jks")
+            storePassword = "storePassword"
+            keyAlias = "keyAlias"
+            keyPassword = "keyPassword"
+        }
+        create("positivo") {
+            storeFile = file("Caminho\\.jks")
+            storePassword = "storePassword"
+            keyAlias = "keyAlias"
+            keyPassword = "keyPassword"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -26,6 +43,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isJniDebuggable = true
+            isDebuggable = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -39,12 +65,27 @@ android {
         compose = true
     }
 
+    // Configuração de flavors para diferenciar terminais que utilizam assinatura.
     flavorDimensions.add("brand")
     productFlavors {
-        create("p2") {
+        // Flavor padrão, sem customizações específicas
+        create("standard") {
             dimension = "brand"
-            applicationIdSuffix = ".p2"
-            versionNameSuffix = "-P2"
+            isDefault = true
+        }
+
+        create("gpos") {
+            dimension = "brand"
+            applicationIdSuffix = ".gpos"
+            versionNameSuffix = "-GPOS"
+            signingConfig = signingConfigs.getByName("gpos")
+        }
+
+        create("positivo") {
+            dimension = "brand"
+            applicationIdSuffix = ".positivo"
+            versionNameSuffix = "-POSITIVO"
+            signingConfig = signingConfigs.getByName("positivo")
         }
     }
 }
