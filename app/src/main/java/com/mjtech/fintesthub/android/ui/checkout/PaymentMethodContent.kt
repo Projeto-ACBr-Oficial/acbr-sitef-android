@@ -35,22 +35,26 @@ fun PaymentMethodContent(
     methods: List<PaymentMethodUi>,
     onMethodSelected: (String) -> Unit
 ) {
-    Text(
-        text = stringResource(R.string.select_payment_method),
-        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-    )
-
-    HorizontalDivider(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        thickness = 1.dp,
-        color = Gray300
-    )
-
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
+
+        item {
+            Text(
+                text = stringResource(R.string.select_payment_method),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+            )
+        }
+
+        item {
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                thickness = 1.dp,
+                color = Gray300
+            )
+        }
         items(methods) { method ->
             PaymentMethodItem(
                 method = method,

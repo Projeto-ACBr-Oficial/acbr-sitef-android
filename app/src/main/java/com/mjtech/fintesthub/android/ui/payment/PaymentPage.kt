@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -43,6 +45,8 @@ fun PaymentPage(onNavigate: (Long) -> Unit) {
 
     val (valueInCents, formattedValue, errorMessage) = currentUiState
 
+    val scrollState = rememberScrollState()
+
     if (errorMessage != null) {
         AlertDialog(
             onDismissRequest = {
@@ -73,6 +77,7 @@ fun PaymentPage(onNavigate: (Long) -> Unit) {
             verticalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier
                 .widthIn(max = MAX_KEYPAD_WIDTH)
+                .verticalScroll(scrollState)
         ) {
             DisplayField(value = formattedValue)
 

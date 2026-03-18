@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -61,49 +60,47 @@ fun CheckoutScreen(
     ) {
         HeaderDisplay(valueInCents.toCurrencyFormat())
 
-        when {
-            uiState.isLoading -> {
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f), contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            when {
+                uiState.isLoading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
-            }
 
-            uiState.selectedPaymentMethodId != null &&
-                    uiState.installmentsOptions is Result.Success -> {
-                val installmentOptions = (uiState.installmentsOptions as Result.Success).data
+                uiState.selectedPaymentMethodId != null &&
+                        uiState.installmentsOptions is Result.Success -> {
+                    val installmentOptions = (uiState.installmentsOptions as Result.Success).data
 
-                InstallmentOptionContent(
-                    installments = installmentOptions,
-                    onInstallmentSelected = viewModel::onInstallmentSelected
-                )
-            }
+                    InstallmentOptionContent(
+                        installments = installmentOptions,
+                        onInstallmentSelected = viewModel::onInstallmentSelected
+                    )
+                }
 
-            uiState.availableUiMethods.isNotEmpty() -> {
-                PaymentMethodContent(
-                    methods = uiState.availableUiMethods,
-                    onMethodSelected = viewModel::onPaymentMethodSelected
-                )
-            }
+                uiState.availableUiMethods.isNotEmpty() -> {
+                    PaymentMethodContent(
+                        methods = uiState.availableUiMethods,
+                        onMethodSelected = viewModel::onPaymentMethodSelected
+                    )
+                }
 
-            else -> {
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f), contentAlignment = Alignment.Center
-                ) {
-                    Text(stringResource(R.string.generic_error), color = Color.Gray)
+                else -> {
+                    Text(
+                        stringResource(R.string.generic_error),
+                        color = Color.Gray,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
         FinButton(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             text = stringResource(R.string.cancel),
             onClick = onCancel
         )

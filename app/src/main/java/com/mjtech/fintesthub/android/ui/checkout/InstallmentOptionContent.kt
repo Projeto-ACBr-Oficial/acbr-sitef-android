@@ -36,22 +36,26 @@ fun InstallmentOptionContent(
     installments: List<InstallmentOption>,
     onInstallmentSelected: (InstallmentOption) -> Unit
 ) {
-    Text(
-        text = stringResource(R.string.select_installment_option),
-        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-    )
-
-    HorizontalDivider(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        thickness = 1.dp,
-        color = Gray300
-    )
-
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
+        item {
+            Text(
+                text = stringResource(R.string.select_installment_option),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+            )
+        }
+
+        item {
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                thickness = 1.dp,
+                color = Gray300
+            )
+        }
+
         items(installments) { option ->
             InstallmentItem(
                 option = option,
